@@ -32,6 +32,7 @@ class NewRow extends Component {
         }
         this.setOrder(index, 'up');
     }
+    
     moveDown = (index) => {
         var rows = document.getElementsByClassName("hl_page-creator--row");
         var updatingElementOrder = JSON.parse(rows[index].getAttribute("data-order"));
@@ -45,12 +46,7 @@ class NewRow extends Component {
     setOrder = (index, moveType) => {
         var rows = document.getElementsByClassName("hl_page-creator--row");
 
-        var order = [];
         for(var i=0; i<rows.length; i++) {
-            order.push(i+1);
-        }
-
-        for(var i=0; i<order.length; i++) {
             var currentOrder = JSON.parse(rows[i].getAttribute("data-order"));
             if(i==0) {
                 var updatingElementOrder = JSON.parse(rows[index].getAttribute("data-order"));

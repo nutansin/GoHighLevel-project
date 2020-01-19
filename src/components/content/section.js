@@ -5,7 +5,6 @@ import { faEye, faTrash, faCopy, faCog } from '@fortawesome/free-solid-svg-icons
 import NewRow from './newRow.js';
 import {connect} from 'react-redux';
 import {openRowWidget} from '../../services/widgets/actions';
-import {addRow} from '../../services/content/actions';
 
 class Section extends Component {
     
@@ -65,10 +64,9 @@ class Section extends Component {
     }
 }
 const mapStateToProps = (state) => ({
-    rowWidgetOpen: state.status.rowWidgetOpen,
     addedRow: state.data.rows
 });
 export default connect(
     mapStateToProps, 
-    {openRowWidget, addRow}
+    {openRowWidget}
 )(Section);

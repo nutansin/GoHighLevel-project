@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
-import {openRowWidget, closeRowWidget} from '../../services/widgets/actions';
+import {closeRowWidget} from '../../services/widgets/actions';
 import {addRow} from '../../services/content/actions';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -52,5 +52,5 @@ const mapStateToProps = (state) => ({
 });
 export default connect(
     mapStateToProps, 
-    {openRowWidget, closeRowWidget, addRow}
+    {closeRowWidget, addRow}
 )(RowOption);

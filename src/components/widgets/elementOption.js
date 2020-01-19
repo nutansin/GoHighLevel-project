@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
-import {openElementWidget, closeElementWidget} from '../../services/widgets/actions';
-import {addElement, addColumnIndex} from '../../services/content/actions';
+import {closeElementWidget} from '../../services/widgets/actions';
+import {addElement} from '../../services/content/actions';
 import {addHeadline, addImage} from '../../services/elements/actions';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -69,5 +69,5 @@ const mapStateToProps = (state) => ({
 });
 export default connect(
     mapStateToProps, 
-    {openElementWidget, closeElementWidget, addElement, addColumnIndex, addHeadline, addImage}
+    {closeElementWidget, addElement, addHeadline, addImage}
 )(ElementOption);
