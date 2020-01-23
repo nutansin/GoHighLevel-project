@@ -28,6 +28,10 @@ class ElementOption extends Component {
     }
 
 
+    dragElement = (e, element) => {
+        e.dataTransfer.setData("element", JSON.stringify(element));
+    }
+
     render() {
         return (
             <section className={classnames('hl_page-creator--element-group', this.props.elementWidgetOpen?'active':'')}>
@@ -44,7 +48,7 @@ class ElementOption extends Component {
                              
 
                             return (
-                                <div className="element-card" onClick={()=>this.addElement(element)} key={index}>
+                                <div className="element-card" onClick={()=>this.addElement(element)} key={index} draggable="true" onDragStart={(e)=>this.dragElement(e, element)}>
                                     <div className="icon">
                                         <FontAwesomeIcon icon={element.icon} />
                                     </div>

@@ -11,6 +11,10 @@ class RowOption extends Component {
         columns:[1,2,3,4]
     }
 
+    dragColumn = (e, column) => {
+        e.dataTransfer.setData("row",column);
+    }
+
     render() {
         return (
             <section className={classnames('hl_page-creator--rows-group', this.props.rowWidgetOpen?'active':'')}>
@@ -25,7 +29,7 @@ class RowOption extends Component {
                             {
                                 this.state.columns && this.state.columns.map((n)=> {
                                     return (
-                                        <div className="row-card" onClick={()=>{this.props.addRow(n); this.props.closeRowWidget();}} key={n}>
+                                        <div className="row-card" draggable="true" onDragStart={(e)=>this.dragColumn(e, n)} onClick={()=>{this.props.addRow(n); this.props.closeRowWidget();}} key={n}>
                                             <div className="icon">
                                                 <FontAwesomeIcon icon={faColumns} />
                                             </div>

@@ -1,16 +1,29 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faTrash, faCopy, faCog } from '@fortawesome/free-solid-svg-icons';
 import NewRow from './newRow.js';
-import {connect} from 'react-redux';
-import {openRowWidget} from '../../services/widgets/actions';
+import {openRowWidget, closeRowWidget} from '../../services/widgets/actions';
 
 class Section extends Component {
     
     state = {
         isHovered: false,
+        addedRow: []
     };
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.addedRow.length !== this.props.addedRow.length) {
+            this.setState(state => {
+                const list = state.addedRow.push(nextProps.addedRow[nextProps.addedRow.length-1]);
+                return {
+                  list
+                };
+            });
+        }
+    }
+
     hoverIn = () => {
         this.setState({
             isHovered: true
@@ -22,10 +35,34 @@ class Section extends Component {
         });
     }
 
+    dropRow = (e) => {
+        if(!e.dataTransfer.types.includes('row')) {
+            return;
+        }
+        
+        var column = JSON.parse(e.dataTransfer.getData("row"));
+
+        this.setState(state => {
+            const list = state.addedRow.push(column);
+            return {
+              list
+            };
+        });
+
+        this.props.closeRowWidget();
+    }
+    dragOverSection = (e) => {
+        e.preventDefault();
+    }
+
     render() {
-        var props = this.props;
         return (
-            <section className="hl_page-creator--section" className={ classnames('hl_page-creator--section', this.state.isHovered?'active':null)}  onMouseEnter={() => this.hoverIn()} onMouseLeave={()=> this.hoverOut()}>
+            <section className={ classnames('hl_page-creator--section', this.state.isHovered?'active':null)}  
+                    onMouseEnter={() => this.hoverIn()} 
+                    onMouseLeave={()=> this.hoverOut()}
+                    onDrop={(e)=>this.dropRow(e)} 
+                    onDragOver={(e)=>this.dragOverSection(e)} >
+
                 <div className="hl_page-creator--actions">
                     <div className="move-actions">
                     <span data-tooltip="tooltip" data-placement="right" title="Up"><i className="icon icon-arrow-up-2"></i></span>
@@ -36,24 +73,24 @@ class Section extends Component {
                         <span data-tooltip="tooltip" data-placement="left" title="Settings"><FontAwesomeIcon icon={faCog} /></span>
                         <span data-tooltip="tooltip" data-placement="left" title="Clone"><FontAwesomeIcon icon={faEye} /></span>
                         <span data-tooltip="tooltip" data-placement="left" title="Save"><FontAwesomeIcon icon={faCopy} /></span>
-                        <span data-tooltip="tooltip" data-placement="left" title="Delete"><FontAwesomeIcon icon={faTrash} onClick={()=>this.props.deleteSection(this.props.key)}/></span>
+                        <span data-tooltip="tooltip" data-placement="left" title="Delete"><FontAwesomeIcon icon={faTrash} /></span>
                     </div>
                 </div>
                 <span className="add-new-section" data-tooltip="tooltip" data-placement="bottom" title="Add New Section"><i className="icon icon-plus"></i></span>
                 
                 {
-                    this.props.addedRow.length==0 ? <div className="new-row-blank">
+                    this.state.addedRow.length==0 ? <div className="new-row-blank">
                     <span className="btn btn-light5 btn-slim" onClick={()=>this.props.openRowWidget()}>Add New Row</span></div>:'' 
                 } 
                 
                 {
                     
-                    this.props.addedRow.length>0 && this.props.addedRow.map((row, index)=> {
+                    this.state.addedRow.length>0 && this.state.addedRow.map((row, index)=> {
                         return (
                             <NewRow
                                 columnType={row} key={index}
                                 rowIndex={index} 
-                                totalRows={this.props.addedRow.length}
+                                totalRows={this.state.addedRow.length}
                             />
                         )
                     })
@@ -68,5 +105,5 @@ const mapStateToProps = (state) => ({
 });
 export default connect(
     mapStateToProps, 
-    {openRowWidget}
+    {openRowWidget, closeRowWidget}
 )(Section);
