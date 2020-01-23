@@ -15,6 +15,10 @@ class ElementOption extends Component {
 
 
     addElement = (element) => {
+        if(!this.props.elementEnabled){
+            alert('Only drag and drop is allowed here');
+            return;
+        }
         var updatedElement = element;
         updatedElement['columnIndex'] = this.props.columnIndex;
 
@@ -69,7 +73,8 @@ class ElementOption extends Component {
 }
 const mapStateToProps = (state) => ({
     elementWidgetOpen: state.status.elementWidgetOpen,
-    columnIndex: state.data.index
+    columnIndex: state.data.index,
+    elementEnabled: state.status.elementEnabled
 });
 export default connect(
     mapStateToProps, 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
-import {openRowWidget, openElementWidget} from '../../services/widgets/actions';
+import {openRowWidget, openElementWidget, disableElement} from '../../services/widgets/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMobileAlt, faCog, faPlug, faExternalLinkAlt, faExpand, faColumns, faCode, faRedo, faUndo, faBars, faArrowLeft, faDesktop} from '@fortawesome/free-solid-svg-icons'
 
@@ -69,7 +69,7 @@ class ActionsMenu extends Component {
               <button type="button" className="btn btn-light btn-sm" data-tooltip="tooltip" data-placement="top" title="Columns" id="column-group"><FontAwesomeIcon icon={faColumns} /><span className="btn-text">Columns</span>
               </button>
               <div className="dropdown" id="element-group">
-                <button type="button" className="btn btn-light btn-sm dropdown-toggle" onClick={()=>this.props.openElementWidget()} aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" data-tooltip="tooltip" data-placement="top" title="Elements"><FontAwesomeIcon icon={faCode} /><span className="btn-text">Elements</span>
+                <button type="button" className="btn btn-light btn-sm dropdown-toggle" onClick={()=>{this.props.openElementWidget(); this.props.disableElement()}} aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" data-tooltip="tooltip" data-placement="top" title="Elements"><FontAwesomeIcon icon={faCode} /><span className="btn-text">Elements</span>
                 </button>
                 <div className="dropdown-menu">
                   <div className="nav">
@@ -93,5 +93,5 @@ class ActionsMenu extends Component {
 
 export default connect(
   null,
-  {openRowWidget, openElementWidget}
+  {openRowWidget, openElementWidget, disableElement}
 )(ActionsMenu);

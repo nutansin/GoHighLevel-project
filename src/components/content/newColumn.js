@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {openElementWidget, closeElementWidget} from '../../services/widgets/actions';
+import {openElementWidget, closeElementWidget, enableElement} from '../../services/widgets/actions';
 import {addColumnIndex} from '../../services/content/actions';
 import ElementContainer from '../elements/elementContainer';
 
@@ -42,7 +42,7 @@ class NewColumn extends Component {
                      
                 {
                     this.state.elementAdded===false?<div className="new-element-blank">
-                        <span className="btn btn-light6 btn-slim" onClick={()=>{this.props.openElementWidget(); this.props.addColumnIndex(this.props.columnIndex)}}>Add New Element</span>
+                        <span className="btn btn-light6 btn-slim" onClick={()=>{this.props.openElementWidget(); this.props.addColumnIndex(this.props.columnIndex); this.props.enableElement()}}>Add New Element</span>
                     </div>:null
                 }
             </div>
@@ -54,5 +54,5 @@ const mapStateToProps = (state) => ({
 });
 export default connect(
     mapStateToProps, 
-    {openElementWidget, addColumnIndex, closeElementWidget}
+    {openElementWidget, addColumnIndex, closeElementWidget, enableElement}
 )(NewColumn);

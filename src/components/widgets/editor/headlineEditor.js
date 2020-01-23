@@ -8,6 +8,10 @@ class HeadlineEditor extends Component {
     state = {
         inputVal: ''
     }
+
+    componentWillReceiveProps(nextProps){
+        
+    }
     
     handleInputChange = (value) => {
         this.setState({

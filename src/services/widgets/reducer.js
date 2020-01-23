@@ -1,8 +1,9 @@
-import {OPEN_ROW_WIDGET, CLOSE_ROW_WIDGET, OPEN_ELEMENT_WIDGET, CLOSE_ELEMENT_WIDGET, OPEN_HEADLINE_EDITOR, CLOSE_HEADLINE_EDITOR, OPEN_IMAGE_EDITOR, CLOSE_IMAGE_EDITOR} from './actionTypes';
+import {OPEN_ROW_WIDGET, CLOSE_ROW_WIDGET, OPEN_ELEMENT_WIDGET, CLOSE_ELEMENT_WIDGET, DISABLE_ELEMENT, ENABLE_ELEMENT, OPEN_HEADLINE_EDITOR, CLOSE_HEADLINE_EDITOR, OPEN_IMAGE_EDITOR, CLOSE_IMAGE_EDITOR} from './actionTypes';
 
 const initialState = {
   rowWidgetOpen: false,
   elementWidgetOpen: false,
+  elementEnabled: true,
   imageEditorOpen: false,
   headlineEditorOpen: false
 };
@@ -24,6 +25,14 @@ function widgetManager(state = initialState, action) {
     case CLOSE_ELEMENT_WIDGET:
         return Object.assign({}, state, {
           elementWidgetOpen: false
+        });
+    case DISABLE_ELEMENT:
+        return Object.assign({}, state, {
+          elementEnabled: false
+        });
+    case ENABLE_ELEMENT:
+        return Object.assign({}, state, {
+          elementEnabled: true
         });
     case OPEN_HEADLINE_EDITOR:
         return Object.assign({}, state, {

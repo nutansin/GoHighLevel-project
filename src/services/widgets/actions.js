@@ -1,4 +1,4 @@
-import {OPEN_ROW_WIDGET, CLOSE_ROW_WIDGET, OPEN_ELEMENT_WIDGET, CLOSE_ELEMENT_WIDGET, OPEN_IMAGE_EDITOR, CLOSE_IMAGE_EDITOR, OPEN_HEADLINE_EDITOR, CLOSE_HEADLINE_EDITOR} from './actionTypes';
+import {OPEN_ROW_WIDGET, CLOSE_ROW_WIDGET, OPEN_ELEMENT_WIDGET, CLOSE_ELEMENT_WIDGET, DISABLE_ELEMENT, ENABLE_ELEMENT, OPEN_IMAGE_EDITOR, CLOSE_IMAGE_EDITOR, OPEN_HEADLINE_EDITOR, CLOSE_HEADLINE_EDITOR} from './actionTypes';
 
 export const openRowWidget = (status) => ({
     type: OPEN_ROW_WIDGET,
@@ -17,6 +17,15 @@ export const openElementWidget = (status) => ({
 
 export const closeElementWidget = (status) => ({
     type: CLOSE_ELEMENT_WIDGET,
+    payload: status
+});
+
+export const disableElement = (status) => ({
+    type: DISABLE_ELEMENT,
+    payload: status
+});
+export const enableElement = (status) => ({
+    type: ENABLE_ELEMENT,
     payload: status
 });
 
