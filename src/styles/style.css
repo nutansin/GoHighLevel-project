@@ -26384,7 +26384,7 @@
  }
  .list-editor input {
     width: 60%;
-    margin: 20px 20px;
+    margin: 5px 20px;
  }
  @media (min-width: 768px) {
      .hl_page-creator--menu {

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import classnames from 'classnames';
 import NewColumn from './newColumn.js';
 import {connect} from 'react-redux';
-import {openRowWidget} from '../../services/widgets/actions';
+import {openRowWidget, enableRow} from '../../services/widgets/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faEye, faCopy, faTrash } from '@fortawesome/free-solid-svg-icons';
 
@@ -98,7 +98,7 @@ class NewRow extends Component {
                         <span data-tooltip="tooltip" data-placement="top" title="Delete"><FontAwesomeIcon icon={faTrash} /></span>
                     </div>
                 </div>
-                <span className="add-new-row" onClick={()=>this.props.openRowWidget()} data-tooltip="tooltip" data-placement="bottom" title="Add New Row"><i className="icon icon-plus"></i></span>
+                <span className="add-new-row" onClick={()=>{this.props.openRowWidget(); this.props.enableRow()}} data-tooltip="tooltip" data-placement="bottom" title="Add New Row"><i className="icon icon-plus"></i></span>
                 {
 
                     Array.from(Array(this.props.columnType), (e, index) => {
@@ -117,5 +117,5 @@ class NewRow extends Component {
 
 export default connect(
     null,
-    {openRowWidget}
+    {openRowWidget, enableRow}
 )(NewRow);

@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faTrash, faCopy, faCog } from '@fortawesome/free-solid-svg-icons';
 import NewRow from './newRow.js';
-import {openRowWidget, closeRowWidget} from '../../services/widgets/actions';
+import {openRowWidget, closeRowWidget, enableRow} from '../../services/widgets/actions';
 
 class Section extends Component {
     
@@ -80,7 +80,7 @@ class Section extends Component {
                 
                 {
                     this.state.addedRow.length==0 ? <div className="new-row-blank">
-                    <span className="btn btn-light5 btn-slim" onClick={()=>this.props.openRowWidget()}>Add New Row</span></div>:'' 
+                    <span className="btn btn-light5 btn-slim" onClick={()=>{this.props.openRowWidget(); this.props.enableRow()}}>Add New Row</span></div>:'' 
                 } 
                 
                 {
@@ -105,5 +105,5 @@ const mapStateToProps = (state) => ({
 });
 export default connect(
     mapStateToProps, 
-    {openRowWidget, closeRowWidget}
+    {openRowWidget, closeRowWidget, enableRow}
 )(Section);
