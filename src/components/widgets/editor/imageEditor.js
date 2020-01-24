@@ -10,6 +10,7 @@ class ImageEditor extends Component {
         file: null,
         url: ''
     }
+
     handleInputChange = (event) => {
         this.setState({
             file: URL.createObjectURL(event.target.files[0])

@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
-import {openHeadlineEditor, openImageEditor} from '../../services/widgets/actions';
+import {openHeadlineEditor, openImageEditor, openParagraphEditor, openListEditor} from '../../services/widgets/actions';
 import {addColumnIndex} from '../../services/content/actions';
+import {editorData} from '../../services/elements/actions';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faTrash, faCopy, faCog } from '@fortawesome/free-solid-svg-icons';
 import Headline from './headline.js';
 import Image from './image.js';
+import Paragraph from './paragraph';
+import List from './list.js';
 
 
 class ElementContainer extends Component {
@@ -14,7 +17,9 @@ class ElementContainer extends Component {
     state = {
         isHovered: false,
         image: null,
-        headlineText: ''
+        headlineText: '',
+        paragraph: '',
+        list: [{item: ''}, {item: ''}, {item: ''}]
     }
 
     componentWillReceiveProps(nextProps) {
@@ -27,16 +32,40 @@ class ElementContainer extends Component {
                 this.setState({
                     image: nextProps.image
                 })
+            } else if (nextProps.element.type == 'Paragraph' && nextProps.paragraph != this.props.paragraph) {
+                this.setState({
+                    paragraph: nextProps.paragraph
+                })
+            } else if (nextProps.element.type == 'BulletList' && nextProps.list != this.props.list) {
+                this.setState(state => {
+                    state.list = nextProps.list;
+                    const list = state.list;
+                    return {
+                      list
+                    }
+                });
             }
             
         }
     }
 
     openEditor = (elementType) => {
+        
         if(elementType == 'Headline') {
+            this.props.editorData(this.state.headlineText);
             this.props.openHeadlineEditor();
+            
         } else if(elementType == 'Image') {
             this.props.openImageEditor();
+
+        } else if(elementType == 'Paragraph') {
+            this.props.editorData(this.state.paragraph);
+            this.props.openParagraphEditor();
+            
+        } else if(elementType == 'BulletList') {
+            this.props.editorData(this.state.list);
+            this.props.openListEditor();
+
         }
         this.props.addColumnIndex(this.props.columnIndex);
     }
@@ -47,6 +76,10 @@ class ElementContainer extends Component {
             return <Headline text={this.state.headlineText}/>;
           case 'Image':
             return <Image source={this.state.image}/>;
+          case 'Paragraph':
+            return <Paragraph text={this.state.paragraph}/>;
+          case 'BulletList':
+            return <List list={this.state.list}/>;
           default:
             return null;
         }
@@ -97,9 +130,11 @@ class ElementContainer extends Component {
 const mapStateToProps = (state) => ({
     index: state.data.index,
     headlineText: state.editorData.headlineText,
+    list: state.editorData.list,
+    paragraph: state.editorData.paragraph,
     image: state.editorData.image
 });
 export default connect(
     mapStateToProps, 
-    {openImageEditor, openHeadlineEditor, addColumnIndex}
+    {openImageEditor, openHeadlineEditor, openParagraphEditor, openListEditor, addColumnIndex, editorData}
 )(ElementContainer);

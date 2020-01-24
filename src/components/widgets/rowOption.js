@@ -52,7 +52,8 @@ class RowOption extends Component {
     }
 }
 const mapStateToProps = (state) => ({
-    rowWidgetOpen: state.status.rowWidgetOpen
+    rowWidgetOpen: state.status.rowWidgetOpen,
+    rowEnabled: state.status.rowEnabled
 });
 export default connect(
     mapStateToProps, 

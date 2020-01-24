@@ -5,12 +5,17 @@ import {addElement} from '../../services/content/actions';
 import {addHeadline, addImage} from '../../services/elements/actions';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeading, faImage} from '@fortawesome/free-solid-svg-icons'
+import { faHeading, faImage, faParagraph, faList} from '@fortawesome/free-solid-svg-icons'
 
 
 class ElementOption extends Component {
     state = {
-        elements: [{type:'Headline', icon: faHeading}, {type: 'Image', icon: faImage}]
+        elements: [
+            {type:'Headline', icon: faHeading},
+            {type: 'Image', icon: faImage},
+            {type: 'Paragraph', icon: faParagraph},
+            {type: 'BulletList', icon: faList}
+        ]
     }
 
 

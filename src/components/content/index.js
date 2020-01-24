@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux';
 import  Section from './section.js';
+import classnames from 'classnames';
 import ActionsMenu from '../actionHeader/actionsMenu.js';
 
 class Content extends Component {
@@ -7,7 +9,7 @@ class Content extends Component {
     render() {
         return (
             <section className='hl_wrapper nav-shrink d-flex'>
-                <section className='hl_wrapper--inner page-creator' id="page-creator">
+                <section className={classnames('hl_wrapper--inner page-creator', ((this.props.elementWidgetOpen|| this.props.rowWidgetOpen)&& (this.props.elementEnabled|| this.props.rowEnabled))?'--menu-active':null)} id="page-creator">
                     <section className="hl_page-creator--main">
                         <ActionsMenu />
                         <div className="hl_page-creator--content">
@@ -19,5 +21,12 @@ class Content extends Component {
         )
     }
 }
-
-export default Content;
+const mapStateToProps = (state) => ({
+    elementWidgetOpen: state.status.elementWidgetOpen,
+    rowWidgetOpen: state.status.rowWidgetOpen,
+    elementEnabled: state.status.elementEnabled,
+    rowEnabled: state.status.rowEnabled
+});
+export default connect(
+    mapStateToProps
+)(Content);

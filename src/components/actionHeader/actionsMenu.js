@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
-import {openRowWidget, openElementWidget, disableElement} from '../../services/widgets/actions';
+import {openRowWidget, openElementWidget, disableElement, disableRow} from '../../services/widgets/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMobileAlt, faCog, faPlug, faExternalLinkAlt, faExpand, faColumns, faCode, faRedo, faUndo, faBars, faArrowLeft, faDesktop} from '@fortawesome/free-solid-svg-icons'
 
@@ -57,7 +57,7 @@ class ActionsMenu extends Component {
                 </div>
               </div>
               <div className="dropdown" id="row-group">
-                <button type="button" className="btn btn-light btn-sm dropdown-toggle" onClick={()=>this.props.openRowWidget()} aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" data-tooltip="tooltip" data-placement="top" title="Rows"><FontAwesomeIcon icon={faBars} /><span className="btn-text">Rows</span>
+                <button type="button" className="btn btn-light btn-sm dropdown-toggle" onClick={()=>{this.props.openRowWidget(); this.props.disableRow()}} aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" data-tooltip="tooltip" data-placement="top" title="Rows"><FontAwesomeIcon icon={faBars} /><span className="btn-text">Rows</span>
                 </button>
                 <div className="dropdown-menu">
                   <div className="nav">
@@ -93,5 +93,5 @@ class ActionsMenu extends Component {
 
 export default connect(
   null,
-  {openRowWidget, openElementWidget, disableElement}
+  {openRowWidget, openElementWidget, disableElement, disableRow}
 )(ActionsMenu);
