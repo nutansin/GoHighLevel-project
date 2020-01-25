@@ -11,6 +11,16 @@ class ImageEditor extends Component {
         url: ''
     }
 
+    componentWillReceiveProps(nextProps){
+        if(!nextProps.imageEditorOpen) {
+            return;
+        }
+        this.setState({
+            file: null,
+            url: ''
+        })
+    }
+
     handleInputChange = (event) => {
         this.setState({
             file: URL.createObjectURL(event.target.files[0])
@@ -24,8 +34,11 @@ class ImageEditor extends Component {
     submitInput = () => {
         if(this.state.url) {
             this.props.addImage(this.state.url);
-        } else {
+        } else if(this.state.file){
             this.props.addImage(this.state.file);
+        } else {
+            alert('Please choose image or enter url');
+            return;
         }
         
         this.fileInput.value = '';

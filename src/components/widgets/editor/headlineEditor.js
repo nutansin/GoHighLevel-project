@@ -13,9 +13,9 @@ class HeadlineEditor extends Component {
         if(!nextProps.headlineEditorOpen) {
             return;
         }
-        if(nextProps.commonData) {
+        if(nextProps.commonData.value) {
             this.setState({
-                inputVal: nextProps.commonData
+                inputVal: nextProps.commonData.value
             })
         } else {
             this.setState({

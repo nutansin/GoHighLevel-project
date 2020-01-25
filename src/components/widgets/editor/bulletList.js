@@ -14,9 +14,9 @@ class ListEditor extends Component {
         if(!nextProps.listEditorOpen) {
             return;
         }
-        if(nextProps.commonData) {
+        if(nextProps.commonData.value) {
             this.setState(state => {
-                state.list = nextProps.commonData;
+                state.list = nextProps.commonData.value;
                 const list = state.list;
                 return {
                   list
@@ -100,7 +100,7 @@ class ListEditor extends Component {
 
 class List extends Component {
     state = {
-        input: this.props.value
+        input: ''
     }
 
     componentWillReceiveProps(nextProps) {

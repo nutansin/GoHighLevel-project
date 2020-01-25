@@ -20,13 +20,20 @@ class NewColumn extends Component {
     }
 
     dropElement = (e) => {
+        
         if(!e.dataTransfer.types.includes('element')) {
             return;
         }
+        this.props.addColumnIndex(this.props.columnIndex);
+
+        var element = JSON.parse(e.dataTransfer.getData("element"));
+        element['columnIndex'] = this.props.columnIndex;
+
         this.setState({
             elementAdded: true,
-            element: JSON.parse(e.dataTransfer.getData("element"))
-        })
+            element: element
+        });
+        
         this.props.closeElementWidget();
     }
     dragOver = (e) => {
@@ -36,8 +43,9 @@ class NewColumn extends Component {
     render() {
         return (
             <div className="hl_page-creator--column" onDrop={(e)=>this.dropElement(e)} onDragOver={(e)=>this.dragOver(e)}>
-                <ElementContainer element={this.state.element}
+                <ElementContainer 
                     columnIndex={this.props.columnIndex}
+                    element={this.state.element}
                 />
                      
                 {
