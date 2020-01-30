@@ -28,11 +28,6 @@ class ElementOption extends Component {
         updatedElement['columnIndex'] = this.props.columnIndex;
 
         this.props.addElement(updatedElement);
-        if(element.type == 'Headline') {
-            this.props.addHeadline('');
-        } else if (element.type == 'Image') {
-            this.props.addImage(null);
-        }
         this.props.closeElementWidget();
     }
 
