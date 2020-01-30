@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faTrash, faCopy, faCog } from '@fortawesome/free-solid-svg-icons';
 import NewRow from './newRow.js';
 import {openRowWidget, closeRowWidget, enableRow} from '../../services/widgets/actions';
+import {addSection} from '../../services/content/actions';
 
 class Section extends Component {
     
@@ -13,16 +14,16 @@ class Section extends Component {
         addedRow: []
     };
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.addedRow.length !== this.props.addedRow.length) {
-            this.setState(state => {
-                const list = state.addedRow.push(nextProps.addedRow[nextProps.addedRow.length-1]);
-                return {
-                  list
-                };
-            });
-        }
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     if(nextProps.addedRow.length !== this.props.addedRow.length) {
+    //         this.setState(state => {
+    //             const list = state.addedRow.push(nextProps.addedRow[nextProps.addedRow.length-1]);
+    //             return {
+    //               list
+    //             };
+    //         });
+    //     }
+    // }
 
     hoverIn = () => {
         this.setState({
@@ -76,21 +77,20 @@ class Section extends Component {
                         <span data-tooltip="tooltip" data-placement="left" title="Delete"><FontAwesomeIcon icon={faTrash} /></span>
                     </div>
                 </div>
-                <span className="add-new-section" data-tooltip="tooltip" data-placement="bottom" title="Add New Section"><i className="icon icon-plus"></i></span>
+                <span className="add-new-section" data-tooltip="tooltip" data-placement="bottom" title="Add New Section" onClick={()=> {this.props.addSection({rows:[]})}}><i className="icon icon-plus"></i></span>
                 
                 {
-                    this.state.addedRow.length==0 ? <div className="new-row-blank">
+                    this.props.rows.length==0 ? <div className="new-row-blank">
                     <span className="btn btn-light5 btn-slim" onClick={()=>{this.props.openRowWidget(); this.props.enableRow()}}>Add New Row</span></div>:'' 
                 } 
                 
                 {
                     
-                    this.state.addedRow.length>0 && this.state.addedRow.map((row, index)=> {
+                    this.props.rows.length>0 && this.props.rows.map((rows, index)=> {
                         return (
                             <NewRow
-                                columnType={row} key={index}
+                                columns={rows.column} key={index}
                                 rowIndex={index} 
-                                totalRows={this.state.addedRow.length}
                             />
                         )
                     })
@@ -105,5 +105,5 @@ const mapStateToProps = (state) => ({
 });
 export default connect(
     mapStateToProps, 
-    {openRowWidget, closeRowWidget, enableRow}
+    {openRowWidget, closeRowWidget, enableRow, addSection}
 )(Section);

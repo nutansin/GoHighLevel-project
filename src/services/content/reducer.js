@@ -1,7 +1,11 @@
-import {ADD_ROW, ADD_ELEMENT, ADD_COLUMN_INDEX} from './actionTypes';
+import {ADD_ROW, ADD_ELEMENT, ADD_COLUMN_INDEX, ADD_SECTION} from './actionTypes';
 
 const initialState = {
-  rows: [],
+  section: [
+    {
+      rows: [] 
+    }
+  ],
   element: {},
   index: null
 };
@@ -12,6 +16,11 @@ function addRowAndElementReducer(state = initialState, action) {
     return { 
       ...state,
       rows: [...state.rows, action.payload]
+  }
+  case ADD_SECTION:
+    return { 
+      ...state,
+      section: [...state.section, action.payload]
   }
   case ADD_ELEMENT:
     return { 
