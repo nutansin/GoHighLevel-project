@@ -101,11 +101,13 @@ class NewRow extends Component {
                 <span className="add-new-row" onClick={()=>{this.props.openRowWidget(); this.props.enableRow()}} data-tooltip="tooltip" data-placement="bottom" title="Add New Row"><i className="icon icon-plus"></i></span>
                 {
 
-                    this.props.columns.length>0 && this.props.columns.map((rows, index)=> {
+                    this.props.rows.length>0 && this.props.rows.map((rows, index)=> {
                         return (  
                             <NewColumn 
-                                key={this.props.rowIndex+''+index} 
-                                columnIndex={this.props.rowIndex+''+index} 
+                                column={rows.column}
+                                // elements={column.elements}
+                                key={index} 
+                                columnIndex={index} 
                             />
                         )
                     })

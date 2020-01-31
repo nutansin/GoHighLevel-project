@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faTrash, faCopy, faCog } from '@fortawesome/free-solid-svg-icons';
 import NewRow from './newRow.js';
 import {openRowWidget, closeRowWidget, enableRow} from '../../services/widgets/actions';
-import {addSection} from '../../services/content/actions';
+import {addSection, addSectionIndex} from '../../services/content/actions';
 
 class Section extends Component {
     
@@ -56,6 +56,14 @@ class Section extends Component {
         e.preventDefault();
     }
 
+    addSection = (index) => {
+        var data = {
+            section: {section:[]},
+            index: index
+        }
+        this.props.addSection(data);
+    }
+
     render() {
         return (
             <section className={ classnames('hl_page-creator--section', this.state.isHovered?'active':null)}  
@@ -77,19 +85,19 @@ class Section extends Component {
                         <span data-tooltip="tooltip" data-placement="left" title="Delete"><FontAwesomeIcon icon={faTrash} /></span>
                     </div>
                 </div>
-                <span className="add-new-section" data-tooltip="tooltip" data-placement="bottom" title="Add New Section" onClick={()=> {this.props.addSection({rows:[]})}}><i className="icon icon-plus"></i></span>
+                <span className="add-new-section" data-tooltip="tooltip" data-placement="bottom" title="Add New Section" onClick={()=> {this.addSection(this.props.index)}}><i className="icon icon-plus"></i></span>
                 
                 {
-                    this.props.rows.length==0 ? <div className="new-row-blank">
-                    <span className="btn btn-light5 btn-slim" onClick={()=>{this.props.openRowWidget(); this.props.enableRow()}}>Add New Row</span></div>:'' 
+                    this.props.section && this.props.section.length==0 ? <div className="new-row-blank">
+                    <span className="btn btn-light5 btn-slim" onClick={()=>{this.props.openRowWidget();this.props.addSectionIndex(this.props.index); this.props.enableRow()}}>Add New Row</span></div>:'' 
                 } 
                 
                 {
                     
-                    this.props.rows.length>0 && this.props.rows.map((rows, index)=> {
+                    this.props.section && this.props.section.map((section, index)=> {
                         return (
                             <NewRow
-                                columns={rows.column} key={index}
+                                rows={section.rows} key={index}
                                 rowIndex={index} 
                             />
                         )
@@ -105,5 +113,5 @@ const mapStateToProps = (state) => ({
 });
 export default connect(
     mapStateToProps, 
-    {openRowWidget, closeRowWidget, enableRow, addSection}
+    {openRowWidget, closeRowWidget, enableRow, addSection, addSectionIndex}
 )(Section);

@@ -10,14 +10,14 @@ class NewColumn extends Component {
         elementAdded: false,
         element: {}
     }
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.element && nextProps.element.columnIndex === this.props.columnIndex) {
-            this.setState({
-                elementAdded: true,
-                element: nextProps.element
-            })
-        }
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     if(nextProps.element && nextProps.element.columnIndex === this.props.columnIndex) {
+    //         this.setState({
+    //             elementAdded: true,
+    //             element: nextProps.element
+    //         })
+    //     }
+    // }
 
     dropElement = (e) => {
         
@@ -43,9 +43,11 @@ class NewColumn extends Component {
     render() {
         return (
             <div className="hl_page-creator--column" onDrop={(e)=>this.dropElement(e)} onDragOver={(e)=>this.dragOver(e)}>
-                <ElementContainer 
+                
+                <ElementContainer
+                    elementList={this.props.column} 
                     columnIndex={this.props.columnIndex}
-                    element={this.state.element}
+                    // element={this.state.element}
                 />
                      
                 {

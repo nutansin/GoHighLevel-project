@@ -10,26 +10,26 @@ class ElementContainer extends Component {
         elementList: []
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.columnIndex === this.props.columnIndex && Object.keys(nextProps.element).length>0 && nextProps.element.columnIndex === this.props.columnIndex) {
+    // componentWillReceiveProps(nextProps) {
+    //     if(nextProps.columnIndex === this.props.columnIndex && Object.keys(nextProps.element).length>0 && nextProps.element.columnIndex === this.props.columnIndex) {
         
-            this.setState(state => {
-                state.elementList.push(nextProps.element);
-                const list = state.elementList;
-                return {
-                  list
-                }
-            });
+    //         this.setState(state => {
+    //             state.elementList.push(nextProps.element);
+    //             const list = state.elementList;
+    //             return {
+    //               list
+    //             }
+    //         });
 
             
-        }
-    }
+    //     }
+    // }
 
     render() {
         return (
             <div>
                 {
-                    this.state.elementList && this.state.elementList.map((element, index)=> {
+                    this.props.elementList && this.props.elementList.map((element, index)=> {
                         return (
                             <ElementList element={element} columnIndex={this.props.columnIndex} key={index} elementIndex={index} addColumnIndex={(index)=>this.props.addColumnIndex(index)}/>
                         )

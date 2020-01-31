@@ -15,6 +15,18 @@ class RowOption extends Component {
         e.dataTransfer.setData("row",column);
     }
 
+    addRow = (n) => {
+        var rows = [];
+        for(var i=0; i<n; i++) {
+            rows.push({column: []});
+        }
+        var data = {
+            rows: rows,
+            index: this.props.sectionIndex
+        }
+        this.props.addRow(data);
+    }
+
     render() {
         return (
             <section className={classnames('hl_page-creator--rows-group', this.props.rowWidgetOpen?'active':'')}>
@@ -29,7 +41,7 @@ class RowOption extends Component {
                             {
                                 this.state.columns && this.state.columns.map((n)=> {
                                     return (
-                                        <div className="row-card" draggable="true" onDragStart={(e)=>this.dragColumn(e, n)} onClick={()=>{this.props.addRow(n); this.props.closeRowWidget();}} key={n}>
+                                        <div className="row-card" draggable="true" onDragStart={(e)=>this.dragColumn(e, n)} onClick={()=>{this.addRow(n); this.props.closeRowWidget();}} key={n}>
                                             <div className="icon">
                                                 <FontAwesomeIcon icon={faColumns} />
                                             </div>
@@ -53,7 +65,8 @@ class RowOption extends Component {
 }
 const mapStateToProps = (state) => ({
     rowWidgetOpen: state.status.rowWidgetOpen,
-    rowEnabled: state.status.rowEnabled
+    rowEnabled: state.status.rowEnabled,
+    sectionIndex: state.data.sectionIndex
 });
 export default connect(
     mapStateToProps, 

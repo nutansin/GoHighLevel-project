@@ -8,15 +8,16 @@ class Content extends Component {
     // state = {
     //     section: []
     // }
-    // componentWillReceiveProps (nextProps)  {
-    //     if(nextProps.section.length>0 && nextProps.section.length !== this.props.section.length) {
-    //         this.setState(()=>{
-    //            return {
-    //             section: nextProps.section
-    //            }
-    //         })
-    //     }
-    // }
+    componentWillReceiveProps (nextProps)  {
+        console.log(nextProps);
+        // if(nextProps.section.length>0 && nextProps.section.length !== this.props.section.length) {
+        //     this.setState(()=>{
+        //        return {
+        //         section: nextProps.section
+        //        }
+        //     })
+        // }
+    }
     render() {
         return (
             <section className='hl_wrapper nav-shrink d-flex'>
@@ -25,9 +26,9 @@ class Content extends Component {
                         <ActionsMenu />
                         <div className="hl_page-creator--content">
                         {
-                            this.props.section && this.props.section.map((section, index)=> {
+                            this.props.editor && this.props.editor.map((editor, index)=> {
                                 return (
-                                    <Section index={index} key={index} rows={section.rows}/>
+                                    <Section index={index} key={index} section={editor.section} />
                                 )
                             })
                         }
@@ -45,7 +46,7 @@ const mapStateToProps = (state) => ({
     rowWidgetOpen: state.status.rowWidgetOpen,
     elementEnabled: state.status.elementEnabled,
     rowEnabled: state.status.rowEnabled,
-    section: state.data.section
+    editor: state.data.editor
 });
 export default connect(
     mapStateToProps

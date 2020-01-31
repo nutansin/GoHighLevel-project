@@ -1,35 +1,48 @@
-import {ADD_ROW, ADD_ELEMENT, ADD_COLUMN_INDEX, ADD_SECTION} from './actionTypes';
+import {ADD_ROW, ADD_ELEMENT, ADD_COLUMN_INDEX, ADD_SECTION, ADD_SECTION_INDEX} from './actionTypes';
 
 const initialState = {
-  section: [
-    {
-      rows: [] 
-    }
+  editor: [
+            {section: [
+                
+            ]}
   ],
   element: {},
-  index: null
+  index: 0,
+  sectionIndex: 0,
+  rowIndex:0
 };
+
 
 function addRowAndElementReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_ROW:
+      var index = action.payload.index;
+      state.editor[index].section.splice(index, 0, action.payload.rows);
+      var editor1 = state.editor;
     return { 
-      ...state,
-      rows: [...state.rows, action.payload]
-  }
+        ...state,
+        editor: editor1
+    }
   case ADD_SECTION:
+      var index = action.payload.index;
+      state.editor.splice(index, 0, action.payload.section);
+      const editor = state.editor;
     return { 
       ...state,
-      section: [...state.section, action.payload]
-  }
+      editor: editor
+    }
   case ADD_ELEMENT:
     return { 
       ...state,
       element: Object.assign({}, action.payload)
-  }
+    }
   case ADD_COLUMN_INDEX:
     return Object.assign({}, state, {
       index: action.payload
+    });
+  case ADD_SECTION_INDEX:
+    return Object.assign({}, state, {
+      sectionIndex: action.payload
     });
     default:
       return state;
