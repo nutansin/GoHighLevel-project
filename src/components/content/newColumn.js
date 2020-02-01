@@ -6,11 +6,6 @@ import ElementContainer from '../elements/elementContainer';
 
 class NewColumn extends Component {
 
-    state = {
-        elementAdded: false,
-        column: this.props.column
-    }
-
     dropElement = (e) => {
         if(!e.dataTransfer.types.includes('element')) {
             return;

@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faEye, faCopy, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 class NewRow extends Component {
-    rowRef = [];
 
     state = {
         isHovered: false
