@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import classnames from 'classnames';
 import {connect} from 'react-redux';
 import {closeImageEditor} from '../../../services/widgets/actions';
-import {addImage} from '../../../services/elements/actions';
+import {updateElementValue} from '../../../services/content/actions';
 
 class ImageEditor extends Component {
     fileInput = React.createRef();
@@ -32,14 +32,23 @@ class ImageEditor extends Component {
         })
     }
     submitInput = () => {
+        var value = '';
         if(this.state.url) {
-            this.props.addImage(this.state.url);
+            value = this.state.url;
         } else if(this.state.file){
-            this.props.addImage(this.state.file);
+            value = this.state.file;
         } else {
             alert('Please choose image or enter url');
             return;
         }
+        var data = {
+            value: value,
+            elementIndex: this.props.elementIndex,
+            sectionIndex: this.props.sectionIndex,
+            columnIndex: this.props.columnIndex,
+            rowIndex: this.props.rowIndex
+        }
+        this.props.updateElementValue(data);
         
         this.fileInput.value = '';
         if(this.state.url) {
@@ -80,9 +89,13 @@ class ImageEditor extends Component {
     }
 }
 const mapStateToProps = (state) => ({
-    imageEditorOpen: state.status.imageEditorOpen
+    imageEditorOpen: state.status.imageEditorOpen,
+    elementIndex: state.data.elementIndex,
+    sectionIndex: state.data.sectionIndex,
+    columnIndex: state.data.columnIndex,
+    rowIndex: state.data.rowIndex
 });
 export default connect(
     mapStateToProps, 
-    {closeImageEditor, addImage}
+    {closeImageEditor, updateElementValue}
 )(ImageEditor);

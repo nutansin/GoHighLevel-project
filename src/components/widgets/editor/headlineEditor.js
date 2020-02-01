@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import classnames from 'classnames';
 import {connect} from 'react-redux';
 import {closeHeadlineEditor} from '../../../services/widgets/actions';
-import {addHeadline} from '../../../services/elements/actions';
+import {updateElementValue} from '../../../services/content/actions';
 
 class HeadlineEditor extends Component {
     state = {
@@ -30,7 +30,14 @@ class HeadlineEditor extends Component {
         })
     }
     submitInput = (input) => {
-        this.props.addHeadline(input);
+        var data = {
+            value: input,
+            elementIndex: this.props.elementIndex,
+            sectionIndex: this.props.sectionIndex,
+            columnIndex: this.props.columnIndex,
+            rowIndex: this.props.rowIndex
+        }
+        this.props.updateElementValue(data);
         this.setState({
             inputVal: ''
         });
@@ -59,9 +66,13 @@ class HeadlineEditor extends Component {
 }
 const mapStateToProps = (state) => ({
     headlineEditorOpen: state.status.headlineEditorOpen,
-    commonData: state.editorData.commonData
+    commonData: state.editorData.commonData,
+    elementIndex: state.data.elementIndex,
+    sectionIndex: state.data.sectionIndex,
+    columnIndex: state.data.columnIndex,
+    rowIndex: state.data.rowIndex
 });
 export default connect(
     mapStateToProps, 
-    {closeHeadlineEditor, addHeadline}
+    {closeHeadlineEditor, updateElementValue}
 )(HeadlineEditor);

@@ -11,20 +11,25 @@ class RowOption extends Component {
         columns:[1,2,3,4]
     }
 
-    dragColumn = (e, column) => {
-        e.dataTransfer.setData("row",column);
+    dragColumn = (e, n) => {
+        var rows = this.getRow(n);
+        e.dataTransfer.setData("row",JSON.stringify(rows));
     }
 
     addRow = (n) => {
+        var rows = this.getRow(n);
+        var data = {
+            rows: {rows: rows},
+            index: this.props.sectionIndex
+        }
+        this.props.addRow(data);
+    }
+    getRow = (n) => {
         var rows = [];
         for(var i=0; i<n; i++) {
             rows.push({column: []});
         }
-        var data = {
-            rows: rows,
-            index: this.props.sectionIndex
-        }
-        this.props.addRow(data);
+        return rows;
     }
 
     render() {

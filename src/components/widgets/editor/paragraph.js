@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import classnames from 'classnames';
 import {connect} from 'react-redux';
 import {closeParagraphEditor} from '../../../services/widgets/actions';
-import {addParagraph} from '../../../services/elements/actions';
+import {updateElementValue} from '../../../services/content/actions';
 
 class ParagraphEditor extends Component {
     state = {
@@ -31,7 +31,14 @@ class ParagraphEditor extends Component {
         })
     }
     submitInput = (input) => {
-        this.props.addParagraph(input);
+        var data = {
+            value: input,
+            elementIndex: this.props.elementIndex,
+            sectionIndex: this.props.sectionIndex,
+            columnIndex: this.props.columnIndex,
+            rowIndex: this.props.rowIndex
+        }
+        this.props.updateElementValue(data);
         this.setState({
             inputVal: ''
         });
@@ -60,9 +67,13 @@ class ParagraphEditor extends Component {
 }
 const mapStateToProps = (state) => ({
     paragraphEditorOpen: state.status.paragraphEditorOpen,
-    commonData: state.editorData.commonData
+    commonData: state.editorData.commonData,
+    elementIndex: state.data.elementIndex,
+    sectionIndex: state.data.sectionIndex,
+    columnIndex: state.data.columnIndex,
+    rowIndex: state.data.rowIndex
 });
 export default connect(
     mapStateToProps, 
-    {closeParagraphEditor, addParagraph}
+    {closeParagraphEditor, updateElementValue}
 )(ParagraphEditor);

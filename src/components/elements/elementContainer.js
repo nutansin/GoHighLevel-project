@@ -1,37 +1,23 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
-import {addColumnIndex} from '../../services/content/actions';
 import ElementList from './elementList';
 
-
 class ElementContainer extends Component {
-
-    state = {
-        elementList: []
-    }
-
-    // componentWillReceiveProps(nextProps) {
-    //     if(nextProps.columnIndex === this.props.columnIndex && Object.keys(nextProps.element).length>0 && nextProps.element.columnIndex === this.props.columnIndex) {
-        
-    //         this.setState(state => {
-    //             state.elementList.push(nextProps.element);
-    //             const list = state.elementList;
-    //             return {
-    //               list
-    //             }
-    //         });
-
-            
-    //     }
-    // }
 
     render() {
         return (
             <div>
                 {
-                    this.props.elementList && this.props.elementList.map((element, index)=> {
+                    this.props.elementList && this.props.elementList.map((elements, index)=> {
                         return (
-                            <ElementList element={element} columnIndex={this.props.columnIndex} key={index} elementIndex={index} addColumnIndex={(index)=>this.props.addColumnIndex(index)}/>
+                            <ElementList element={elements.element} 
+                                        rowIndex={this.props.rowIndex}
+                                        sectionIndex={this.props.sectionIndex}
+                                        columnIndex={this.props.columnIndex} 
+                                        key={index} 
+                                        index={index} 
+                                        
+                            />
                         )
                     })
                 }
@@ -41,8 +27,9 @@ class ElementContainer extends Component {
         )
     }
 }
-
+const mapStateToProps = (state) => ({
+    editor: state.data.editor
+});
 export default connect(
-    null, 
-    { addColumnIndex }
+    mapStateToProps
 )(ElementContainer);

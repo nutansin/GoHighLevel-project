@@ -1,68 +1,65 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {openElementWidget, closeElementWidget, enableElement} from '../../services/widgets/actions';
-import {addColumnIndex} from '../../services/content/actions';
+import {addColumnIndex, addRowIndex, addSectionIndex, addElement} from '../../services/content/actions';
 import ElementContainer from '../elements/elementContainer';
 
 class NewColumn extends Component {
 
     state = {
         elementAdded: false,
-        element: {}
+        column: this.props.column
     }
-    // componentWillReceiveProps(nextProps) {
-    //     if(nextProps.element && nextProps.element.columnIndex === this.props.columnIndex) {
-    //         this.setState({
-    //             elementAdded: true,
-    //             element: nextProps.element
-    //         })
-    //     }
-    // }
 
     dropElement = (e) => {
-        
         if(!e.dataTransfer.types.includes('element')) {
             return;
         }
-        this.props.addColumnIndex(this.props.columnIndex);
 
         var element = JSON.parse(e.dataTransfer.getData("element"));
-        element['columnIndex'] = this.props.columnIndex;
+        var data = {
+            element: {element: element},
+            columnIndex: this.props.index,
+            rowIndex: this.props.rowIndex,
+            sectionIndex: this.props.sectionIndex
+        }
 
-        this.setState({
-            elementAdded: true,
-            element: element
-        });
-        
+        this.props.addElement(data);
         this.props.closeElementWidget();
     }
+
     dragOver = (e) => {
         e.preventDefault();
+    }
+
+    addNodeIndex = () => {
+        this.props.addColumnIndex(this.props.index);
+        this.props.addRowIndex(this.props.rowIndex);
+        this.props.addSectionIndex(this.props.sectionIndex);
     }
 
     render() {
         return (
             <div className="hl_page-creator--column" onDrop={(e)=>this.dropElement(e)} onDragOver={(e)=>this.dragOver(e)}>
-                
-                <ElementContainer
-                    elementList={this.props.column} 
-                    columnIndex={this.props.columnIndex}
-                    // element={this.state.element}
-                />
-                     
                 {
-                    this.state.elementAdded===false?<div className="new-element-blank">
-                        <span className="btn btn-light6 btn-slim" onClick={()=>{this.props.openElementWidget(); this.props.addColumnIndex(this.props.columnIndex); this.props.enableElement()}}>Add New Element</span>
-                    </div>:null
+                    this.props.column && this.props.column.length>0?  <ElementContainer
+                                                                        rowIndex={this.props.rowIndex}
+                                                                        sectionIndex={this.props.sectionIndex}
+                                                                        elementList={this.props.column} 
+                                                                        columnIndex={this.props.index}
+                                                                    />:
+                                                                    <div className="new-element-blank">
+                                                                            <span className="btn btn-light6 btn-slim" onClick={()=>{this.props.openElementWidget(); this.addNodeIndex(); this.props.enableElement()}}>Add New Element</span>
+                                                                    </div>
                 }
             </div>
         )
     }
 }
 const mapStateToProps = (state) => ({
-    element: state.data.element
+    editor: state.data.editor
 });
 export default connect(
     mapStateToProps, 
-    {openElementWidget, addColumnIndex, closeElementWidget, enableElement}
+    {openElementWidget, addColumnIndex, addRowIndex, addSectionIndex, closeElementWidget, enableElement, addElement}
 )(NewColumn);

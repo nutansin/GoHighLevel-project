@@ -5,25 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faTrash, faCopy, faCog } from '@fortawesome/free-solid-svg-icons';
 import NewRow from './newRow.js';
 import {openRowWidget, closeRowWidget, enableRow} from '../../services/widgets/actions';
-import {addSection, addSectionIndex} from '../../services/content/actions';
+import {addSection, addSectionIndex, addRow} from '../../services/content/actions';
 
 class Section extends Component {
     
     state = {
-        isHovered: false,
-        addedRow: []
+        isHovered: false
     };
-
-    // componentWillReceiveProps(nextProps) {
-    //     if(nextProps.addedRow.length !== this.props.addedRow.length) {
-    //         this.setState(state => {
-    //             const list = state.addedRow.push(nextProps.addedRow[nextProps.addedRow.length-1]);
-    //             return {
-    //               list
-    //             };
-    //         });
-    //     }
-    // }
 
     hoverIn = () => {
         this.setState({
@@ -41,15 +29,13 @@ class Section extends Component {
             return;
         }
         
-        var column = JSON.parse(e.dataTransfer.getData("row"));
+        var rows = JSON.parse(e.dataTransfer.getData("row"));
+        var data = {
+            rows: {rows: rows},
+            index: this.props.index
+        }
 
-        this.setState(state => {
-            const list = state.addedRow.push(column);
-            return {
-              list
-            };
-        });
-
+        this.props.addRow(data);
         this.props.closeRowWidget();
     }
     dragOverSection = (e) => {
@@ -62,6 +48,10 @@ class Section extends Component {
             index: index
         }
         this.props.addSection(data);
+    }
+
+    updateNodeIndex = (index) => {
+        this.props.addSectionIndex(index);
     }
 
     render() {
@@ -89,7 +79,7 @@ class Section extends Component {
                 
                 {
                     this.props.section && this.props.section.length==0 ? <div className="new-row-blank">
-                    <span className="btn btn-light5 btn-slim" onClick={()=>{this.props.openRowWidget();this.props.addSectionIndex(this.props.index); this.props.enableRow()}}>Add New Row</span></div>:'' 
+                    <span className="btn btn-light5 btn-slim" onClick={()=>{this.props.openRowWidget(); this.updateNodeIndex(this.props.index); this.props.enableRow()}}>Add New Row</span></div>:'' 
                 } 
                 
                 {
@@ -98,7 +88,8 @@ class Section extends Component {
                         return (
                             <NewRow
                                 rows={section.rows} key={index}
-                                rowIndex={index} 
+                                index={index} 
+                                sectionIndex={this.props.index}
                             />
                         )
                     })
@@ -109,9 +100,9 @@ class Section extends Component {
     }
 }
 const mapStateToProps = (state) => ({
-    addedRow: state.data.rows
+    editor: state.data.editor
 });
 export default connect(
     mapStateToProps, 
-    {openRowWidget, closeRowWidget, enableRow, addSection, addSectionIndex}
+    {openRowWidget, closeRowWidget, enableRow, addSection, addSectionIndex, addRow}
 )(Section);

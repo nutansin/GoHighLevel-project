@@ -10,29 +10,33 @@ import { faHeading, faImage, faParagraph, faList} from '@fortawesome/free-solid-
 class ElementOption extends Component {
     state = {
         elements: [
-            {type:'Headline', icon: faHeading},
-            {type: 'Image', icon: faImage},
-            {type: 'Paragraph', icon: faParagraph},
-            {type: 'BulletList', icon: faList}
+            {type:'Headline', icon: faHeading, value: ''},
+            {type: 'Image', icon: faImage, value: null},
+            {type: 'Paragraph', icon: faParagraph, value: ''},
+            {type: 'BulletList', icon: faList, value: [{item: ''}, {item: ''}, {item: ''}]}
         ]
     }
 
 
     addElement = (element) => {
+        var newElement = JSON.parse(element);
         if(!this.props.elementEnabled){
             alert('Only drag and drop is allowed here');
             return;
         }
-        var updatedElement = element;
-        updatedElement['columnIndex'] = this.props.columnIndex;
-
-        this.props.addElement(updatedElement);
+        var data = {
+            element: {element: newElement},
+            columnIndex: this.props.columnIndex,
+            rowIndex: this.props.rowIndex,
+            sectionIndex: this.props.sectionIndex
+        }
+        this.props.addElement(data);
         this.props.closeElementWidget();
     }
 
 
     dragElement = (e, element) => {
-        e.dataTransfer.setData("element", JSON.stringify(element));
+        e.dataTransfer.setData("element", element);
     }
 
     render() {
@@ -51,7 +55,7 @@ class ElementOption extends Component {
                              
 
                             return (
-                                <div className="element-card" onClick={()=>this.addElement(element)} key={index} draggable="true" onDragStart={(e)=>this.dragElement(e, element)}>
+                                <div className="element-card" onClick={()=>this.addElement(JSON.stringify(element))} key={index} draggable="true" onDragStart={(e)=>this.dragElement(e, JSON.stringify(element))}>
                                     <div className="icon">
                                         <FontAwesomeIcon icon={element.icon} />
                                     </div>
@@ -72,7 +76,9 @@ class ElementOption extends Component {
 }
 const mapStateToProps = (state) => ({
     elementWidgetOpen: state.status.elementWidgetOpen,
-    columnIndex: state.data.index,
+    columnIndex: state.data.columnIndex,
+    rowIndex: state.data.rowIndex,
+    sectionIndex: state.data.sectionIndex,
     elementEnabled: state.status.elementEnabled
 });
 export default connect(

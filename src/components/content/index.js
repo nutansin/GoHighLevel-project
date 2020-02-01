@@ -5,19 +5,7 @@ import classnames from 'classnames';
 import ActionsMenu from '../actionHeader/actionsMenu.js';
 
 class Content extends Component {
-    // state = {
-    //     section: []
-    // }
-    componentWillReceiveProps (nextProps)  {
-        console.log(nextProps);
-        // if(nextProps.section.length>0 && nextProps.section.length !== this.props.section.length) {
-        //     this.setState(()=>{
-        //        return {
-        //         section: nextProps.section
-        //        }
-        //     })
-        // }
-    }
+   
     render() {
         return (
             <section className='hl_wrapper nav-shrink d-flex'>
@@ -31,9 +19,7 @@ class Content extends Component {
                                     <Section index={index} key={index} section={editor.section} />
                                 )
                             })
-                        }
-                        
-                            
+                        }    
                         </div>
                     </section>
                 </section>

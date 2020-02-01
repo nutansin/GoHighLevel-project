@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import classnames from 'classnames';
 import {connect} from 'react-redux';
 import {closeListEditor} from '../../../services/widgets/actions';
-import {addList} from '../../../services/elements/actions';
+import {updateElementValue} from '../../../services/content/actions';
 
 class ListEditor extends Component {
     state = {
@@ -16,18 +16,14 @@ class ListEditor extends Component {
         }
         if(nextProps.commonData.value) {
             this.setState(state => {
-                state.list = nextProps.commonData.value;
-                const list = state.list;
                 return {
-                  list
+                  list: nextProps.commonData.value
                 }
             });
         } else {
             this.setState(state => {
-                state.list = [{item: ''}, {item: ''}, {item: ''}];
-                const list = state.list;
                 return {
-                  list
+                  list: [{item: ''}, {item: ''}, {item: ''}]
                 }
             });
         }
@@ -62,7 +58,14 @@ class ListEditor extends Component {
     }
 
     submitInput = () => {
-        this.props.addList(this.state.list);
+        var data = {
+            value: this.state.list,
+            elementIndex: this.props.elementIndex,
+            sectionIndex: this.props.sectionIndex,
+            columnIndex: this.props.columnIndex,
+            rowIndex: this.props.rowIndex
+        }
+        this.props.updateElementValue(data);
     }
     render() {
         return (
@@ -130,9 +133,13 @@ class List extends Component {
 
 const mapStateToProps = (state) => ({
     listEditorOpen: state.status.listEditorOpen,
-    commonData: state.editorData.commonData
+    commonData: state.editorData.commonData,
+    elementIndex: state.data.elementIndex,
+    sectionIndex: state.data.sectionIndex,
+    columnIndex: state.data.columnIndex,
+    rowIndex: state.data.rowIndex
 });
 export default connect(
     mapStateToProps, 
-    {closeListEditor, addList}
+    {closeListEditor, updateElementValue}
 )(ListEditor);
