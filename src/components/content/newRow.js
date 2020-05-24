@@ -7,7 +7,7 @@ import {addSectionIndex} from '../../services/content/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faEye, faCopy, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-class NewRow extends Component {
+export class NewRow extends Component {
 
     state = {
         isHovered: false
@@ -33,7 +33,6 @@ class NewRow extends Component {
         return rows;
     }
     moveUp = (e, index) => {
-       
         var rows = document.getElementsByClassName("hl_page-creator--row active");
         var updatingElementOrder = JSON.parse(rows[0].getAttribute("data-order"));
 
@@ -97,7 +96,7 @@ class NewRow extends Component {
     
     render() {
         return (
-            <div className={ classnames('hl_page-creator--row', this.state.isHovered?'active':null)} data-order={this.props.index+1} style={{order:this.props.index+1}} onMouseEnter={() => this.hoverIn()} onMouseLeave={()=> this.hoverOut()}>
+            <div className={ classnames('hl_page-creator--row row-wrapper', this.state.isHovered?'active':null)} data-order={this.props.index+1} style={{order:this.props.index+1}} onMouseEnter={() => this.hoverIn()} onMouseLeave={()=> this.hoverOut()}>
                 <div className="hl_page-creator--actions">
                     <div className="move-actions">
                         <span data-tooltip="tooltip" data-placement="top" title="Up" onClick={(e)=>this.moveUp(e, this.props.index)}><i className="icon icon-arrow-up-2"></i></span>

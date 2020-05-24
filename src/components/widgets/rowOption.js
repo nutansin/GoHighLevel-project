@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faColumns } from '@fortawesome/free-solid-svg-icons';
 
-class RowOption extends Component {
+export class RowOption extends Component {
     state = {
         columns:[1,2,3,4]
     }

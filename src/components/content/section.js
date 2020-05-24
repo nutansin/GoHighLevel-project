@@ -7,13 +7,13 @@ import NewRow from './newRow.js';
 import {openRowWidget, closeRowWidget, enableRow} from '../../services/widgets/actions';
 import {addSection, addSectionIndex, addRow} from '../../services/content/actions';
 
-class Section extends Component {
+export class Section extends Component {
     
     state = {
         isHovered: false
     };
 
-    hoverIn = () => {
+    hoverIn = (e) => {
         this.setState({
             isHovered: true
         });
@@ -42,21 +42,26 @@ class Section extends Component {
         e.preventDefault();
     }
 
-    addSection = (index) => {
+    addSection = () => {
         var data = {
             section: {section:[]},
-            index: index
+            index: this.props.index
         }
         this.props.addSection(data);
     }
 
-    updateNodeIndex = (index) => {
-        this.props.addSectionIndex(index);
+    updateNodeIndex = () => {
+        const {
+            addSectionIndex,
+            index,
+        } = this.props;
+
+        addSectionIndex(index);
     }
 
     render() {
         return (
-            <section className={ classnames('hl_page-creator--section', this.state.isHovered?'active':null)}  
+            <section className={ classnames('section-wrapper hl_page-creator--section', this.state.isHovered?'active':null)}  
                     onMouseEnter={() => this.hoverIn()} 
                     onMouseLeave={()=> this.hoverOut()}
                     onDrop={(e)=>this.dropRow(e)} 
@@ -79,7 +84,7 @@ class Section extends Component {
                 
                 {
                     this.props.section && this.props.section.length==0 ? <div className="new-row-blank">
-                    <span className="btn btn-light5 btn-slim" onClick={()=>{this.props.openRowWidget(); this.updateNodeIndex(this.props.index); this.props.enableRow()}}>Add New Row</span></div>:'' 
+                    <span className="btn btn-light5 btn-slim" data-id="open-row" onClick={()=>{this.props.openRowWidget(); this.updateNodeIndex(this.props.index); this.props.enableRow()}}>Add New Row</span></div>:'' 
                 } 
                 
                 {
@@ -87,6 +92,7 @@ class Section extends Component {
                     this.props.section && this.props.section.map((section, index)=> {
                         return (
                             <NewRow
+                                className='section-new-row'
                                 rows={section.rows} key={index}
                                 index={index} 
                                 sectionIndex={this.props.index}

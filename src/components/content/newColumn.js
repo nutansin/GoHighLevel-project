@@ -4,7 +4,7 @@ import {openElementWidget, closeElementWidget, enableElement} from '../../servic
 import {addColumnIndex, addRowIndex, addSectionIndex, addElement} from '../../services/content/actions';
 import ElementContainer from '../elements/elementContainer';
 
-class NewColumn extends Component {
+export class NewColumn extends Component {
 
     dropElement = (e) => {
         if(!e.dataTransfer.types.includes('element')) {

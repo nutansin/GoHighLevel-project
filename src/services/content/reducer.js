@@ -1,6 +1,6 @@
-import {ADD_ROW, ADD_ELEMENT, ADD_COLUMN_INDEX, ADD_SECTION, ADD_SECTION_INDEX, ADD_ROW_INDEX,ADD_ELEMENT_INDEX, UPDATE_ELEMENT_VALUE} from './actionTypes';
+import * as types from './actionTypes';
 
-const initialState = {
+export const initialState = {
   editor: [
             {section: [
                 
@@ -15,7 +15,7 @@ const initialState = {
 
 function addRowAndElementReducer(state = initialState, action) {
   switch (action.type) {
-      case ADD_ROW:
+      case types.ADD_ROW:
         var index = action.payload.index;
         state.editor[index].section.push(action.payload.rows);
         var editor = state.editor;
@@ -23,7 +23,7 @@ function addRowAndElementReducer(state = initialState, action) {
           ...state,
           editor: [...editor]
       }
-      case ADD_SECTION:
+      case types.ADD_SECTION:
           var index = action.payload.index;
           state.editor.push(action.payload.section);
           var editor = state.editor;
@@ -32,7 +32,7 @@ function addRowAndElementReducer(state = initialState, action) {
             ...state,
             editor: [...editor]
           }
-      case ADD_ELEMENT:
+      case types.ADD_ELEMENT:
           var sectionIndex = action.payload.sectionIndex;
           var rowIndex = action.payload.rowIndex;
           var columnIndex = action.payload.columnIndex;
@@ -43,7 +43,7 @@ function addRowAndElementReducer(state = initialState, action) {
               ...state,
               editor: [...editor]
           }
-      case UPDATE_ELEMENT_VALUE:
+      case types.UPDATE_ELEMENT_VALUE:
           var sectionIndex = action.payload.sectionIndex;
           var rowIndex = action.payload.rowIndex;
           var columnIndex = action.payload.columnIndex;
@@ -59,19 +59,19 @@ function addRowAndElementReducer(state = initialState, action) {
               ...state,
               editor: [...editor]
           }
-      case ADD_COLUMN_INDEX:
+      case types.ADD_COLUMN_INDEX:
         return Object.assign({}, state, {
           columnIndex: action.payload
         });
-      case ADD_SECTION_INDEX:
+      case types.ADD_SECTION_INDEX:
         return Object.assign({}, state, {
           sectionIndex: action.payload
         });
-      case ADD_ROW_INDEX:
+      case types.ADD_ROW_INDEX:
         return Object.assign({}, state, {
           rowIndex: action.payload
         });
-      case ADD_ELEMENT_INDEX:
+      case types.ADD_ELEMENT_INDEX:
         return Object.assign({}, state, {
           elementIndex: action.payload
         });
